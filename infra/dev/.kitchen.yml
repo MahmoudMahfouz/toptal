@@ -1,0 +1,26 @@
+---
+driver:
+  name: docker
+
+provisioner:
+  name: ansible_playbook
+  hosts: localhost
+  roles_path: ./
+
+platforms:
+  - name: ubuntu-18.04
+    driver_config:
+      provision_command:
+        - apt update
+      forward:
+        - 8082:8082
+      image: ubuntu/bionic-20190612
+      platform: ubuntu
+
+suites:
+  - name: default
+    provisioner:
+      name: ansible_playbook
+      playbook: ./main.yml
+      additional_copy_path:
+        - "."
